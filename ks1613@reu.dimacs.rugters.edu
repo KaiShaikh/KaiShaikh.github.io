@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Kai Shaikh</title>
+    <link rel="stylesheet" type="text/css" href="./css/base.css" />
+    <link rel="stylesheet" type="text/css" href="./css/layout.css" />
+    <link rel="stylesheet" type="text/css" href="./css/syntax.css" />
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="icon" href="./images/icon.png">
+    <meta name="keywords" content="kai,shaikh,math,algebra,number,theory,berkeley" />
+    <!-- Schema.org markup for Google+ -->
+    <meta itemprop="name" content="Kai Shaikh">
+
+    <!-- Open Graph data -->
+
+
+ </head>
+  <body>
+    <div id="navigation">
+      <a href="./"><h1>Kai Shaikh</h1></a>
+      <a href="./">Home</a>
+      <a href="./research.html">Research</a>
+       <a href="./personal.html">Personal</a>
+
+
+
+    </div>
+
+    <div id="content">
+
+      <h1 id="Articles">Rutgers DIMACS REU Research Log</h1>
+
+  <div class="post-body">Project Description </div>
+  <div class="info"> This summer, I, along with <a href = "http://reu.dimacs.rutgers.edu/~cjf151/">Colin Fan</a> and <a href = "http://reu.dimacs.rutgers.edu/~ss3664/">Saket Shah</a> will be
+    working towards a proof of the <a href = "https://en.wikipedia.org/wiki/Ehrenpreis_conjecture">Ehrenpreis Conjecture</a>
+    for cusped surfaces, via a pants decomposition using degenerate pants. We are working under the mentorship of Professor <a href = "https://sites.math.rutgers.edu/~alexk/">Alex Kontorovich</a>,
+    and with the help of Professor <a href = "http://www.math.brown.edu/~kahn/">Jeremey Kahn</a>. To this end, we will first be attempting to produce
+    (using Python) a pants decomposition of the standard fundamental domain for the action of SL2(Z) on the hyperbolic upper half-plane</div>
+      </p>
+  <hr>
+
+  <div class="post-body"> <i>Week One</i> </div>
+  <div class="info"> Learned basics of hyperbolic geometry and the general theory behind
+    closed geodesics on the upper half plane modulo the action of SL2(Z).</div>
+      </p>
+  <hr>
+
+  <div class="post-body"> <i>Week Two</i> </div>
+  <div class="info">Learned more about the correspondence between equivalence classes of quadratic forms and conjugacy classes of closed geodesics.
+    We produced code that gives all closed geodesics of fixed length, using this correspodence. Still need to deal with some problems with efficiency of computation.</div>
+      </p>
+  <hr>
+
+  <div class="post-body"> <i>Week Three</i> </div>
+  <div class="info">Learned about the combinatorics of pants via "theta graphs" and the partitioning of cutting sequences. Using this reduction to a combinatorial problem,
+    we were able to write code that produces all pants with cusps with length in a given range.</div>
+      </p>
+  <hr>
+
+  <div class="post-body"> <i>Week Four</i> </div>
+  <div class="info">We produced functions that get all the geodesics used in a list of pants, and, by producing cuspidal geodesics which approximate
+  these closed ones, were able to produce a list of all eyes that can be derived from a given list of pants. We then converted our list of pants and eyes
+  into a matrix telling us which pants contain which closed geodesics, and similarly for eyes; in producing this matrix, we selected one orientation of the closed geodesic
+  to be positive (+1) and the other to be negative (-1); the semi-arbitrariness with which we chose which was positive and negative and potential issues with consistency
+  may need to be resolved next week. </p>
+<p>
+  With respect to this matrix, a valid covering of SL2(Z) corresponds an non-negative integer vector (non-zero) in the kernel of this matrix; furthermore, we would like a minimal such vector.
+  By the end of the week(end), we had managed to implement a linear program using PuLP, which produces a solution minimal with respect to the L1 norm. In order to
+  produce a solution minimal in the L2 norm (which is what we desire), we will have to use quadratic programming, hopefully at the beginning of next week.
+</p>
+</div>
+      </p>
+  <hr>
+
+  <div class="post-body"> <i>Week Five</i> </div>
+  <div class="info">At the beginning of this week we figured out how to plug our boundary matrix into a quadratic program to get a solution minimal in the L2 norm.
+  This way, we were able to minimize (roughly speaking) the variance in the pants' coefficients, in an attempt to produce a relatively uniform cover of SL(2,Z).
+After this, we also had the chance to look at Professor Kahn's code for producing quadratic forms and pants, and we ended up replacing our own functions that produce the
+representatives of the narrow class group with the functions Professor Kahn had written for this purpose.</p>
+<p>
+Professor Kahn's functions accomplish this goal much faster than our own,
+due largely to a difference in strategy: where we computed the continued fraction corresponding to each quadratic form's larger root and checked if we had seen one of its permutations already,
+that is, if we already had a representative of that class, Professor Kahn started by producing the matrices corresponding to each form, and the matrices' "successors" a task computationally
+roughly equivalent to computing the continued fraction of one element of the class. He then iterates over succesors until the starting matrix is returned to, and in this way produces a minimal representative
+of each class while circumventing the redundant continued fraction calculations undertaken in our own code. </p>
+<p>
+We ended up keeping the section of our code that produces pairs of pants
+from a given list of geodesics, because our methods were fairly similar to Professor Kahn's, whence we believe that our code's computational efficiency should be comparable as well.
+</p> <p>
+After integrating Professor Kahn's code with our own, we were compute some more examples of covers of SL(2,Z) minimal in the L2 norm. The variance in coefficients, however, remains somewhat higher than desired,
+or expected, and we hope to work on understanding why this is the case and resolving this issue next week. With regards to the potential consistency issues relating to choice of orientation (that I had mentioned last week),
+it turns out that no such issues arise, since we only actually care about making the number of pants on each side of a given geodesic equal. </p>
+</div>
+      </p>
+  <hr>
+
+<h1 id="articles">Relevant Articles</h1>
+
+<div class="post-body"> <i>The good pants homology and the Ehrenpreis Conjecture</i> <a href="./documents/kahn.pdf">[pdf]</a> </div>
+  <div class="post-body">Jeremy Kahn and Vladimir Marković</div>
+  <div class="info"> Kahn and Marković's proof of the original Ehrenpreis conjecture for cocompact surfaces. </div>
+      </p>
+  <hr>
+
+<div class="post-body"> <i>The Modular Surface and Continued Fractions</i> <a href="./documents/series.pdf">[pdf]</a> </div>
+  <div class="post-body">Caroline Series</div>
+  <div class="info"> A description of the correspondence between cutting sequences and closed geodesics in the hyperbolic plane.</div>
+      </p>
+  <hr>
+
+  <div class="post-body"> <i>Letter to Bill Duke on "Inversive Coordinates"</i> <a href="./documents/duke.pdf">[pdf]</a> </div>
+    <div class="post-body">Alex Kontorovich</div>
+    <div class="info"> An explanation of inversive coordinates and the correspondence between various representations of the hyperbolic plane.</div>
+        </p>
+    <hr>
+
+  <div class="post-body"> <i>Applications of Thin Orbits</i> <a href="./documents/thinorbits.pdf">[pdf]</a> </div>
+    <div class="post-body">Alex Kontorovich</div>
+    <div class="info"> An introduction to the study of thin orbits and their various applications.</div>
+        </p>
+    <hr>
+
+  <div class="post-body"> <i>From Apollonius to Zaremba: Local-Global Phenomena in Thin Orbits</i> <a href="./documents/thinorbits2.pdf">[pdf]</a> </div>
+    <div class="post-body">Alex Kontorovich</div>
+    <div class="info"> A somewhat technical survey of recent work in demonstrating certain density versions of conjectured local-global phenomena of thin orbits, following work by Bourgain and Kontorovich.</div>
+        </p>
+    <hr>
+
+
+
+  </body>
+</html>
