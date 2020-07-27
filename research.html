@@ -32,7 +32,7 @@
       <a href="./">Home</a>
       <a href="./research.html">Research</a>
        <a href="./personal.html">Personal</a>
-
+       <a href="./reading.html">Reading</a>
 
 
     </div>
@@ -46,7 +46,7 @@
     working towards a proof of the <a href = "https://en.wikipedia.org/wiki/Ehrenpreis_conjecture">Ehrenpreis Conjecture</a>
     for cusped surfaces, via a pants decomposition using degenerate pants. We are working under the mentorship of Professor <a href = "https://sites.math.rutgers.edu/~alexk/">Alex Kontorovich</a>,
     and with the help of Professor <a href = "http://www.math.brown.edu/~kahn/">Jeremey Kahn</a>. To this end, we will first be attempting to produce
-    &#91;using Python&#93; a pants decomposition of the standard fundamental domain for the action of $SL_2(\mathbb{Z})$ on the hyperbolic upper half-plane</div>
+    &#91;using Python&#93; a pants decomposition of the standard fundamental domain for the action of $SL_2(\mathbb{Z})$ on the hyperbolic upper half-plane.</div>
       </p>
   <hr>
 
@@ -113,7 +113,7 @@ to two given semicircles in the upper half plane &#91;and the x-axis&#93;. To co
 and use the inner product with respect to the quadratic form $$Q = \begin{pmatrix} 0 & \frac{1}{2} & 0 \\\frac{1}{2} & 0 & 0\\ 0 & 0 & -1\end{pmatrix}$$
 After this we wrote a function to map pants into a standard position in the upper half plane, and then wrote a function to align two compatible pairs of pants so that $\gamma$ and $\gamma^{-1}$ coincide &#91;but with
 opposite orientation, of course&#93; in the desired positions. This function seemed to work as desired in most cases, although there still appear to be some kinks that will need to be worked out.
-</p><p>Here's an example of the function&#8217;s output &#91;which we&#8217;ve visualized using matplotlib&#93;:</p>
+</p><p>Here&#8217;s an example of the function&#8217;s output &#91;which we&#8217;ve visualized using matplotlib&#93;:</p>
 <p><img src="./images/pantsPutter.png" alt="Pants in the Upper Half-Plane" style="width:450px;height:250px;" class="center">
 </p><p>
 Here each pair of pants is represented by three semicircles, each of whose intersections with the x-axis are conjugate pairs of quadratic irrationals corresponding to
@@ -129,7 +129,50 @@ a representative of the equivalence class of the cutting sequence of the closed 
   <hr>
 
   <div class="post-body"> <i>Week Seven</i> </div>
-  <div class="info">To come!</p>
+  <div class="info">This week we completed our computation of shears which included working out some consistency issues we had been having with the sign of the shear. We also implemented an almost
+  identical function that gives the "shear" between two pairs of pants that both contain a given closed geodesic $\gamma$ &#91;instead of containing $\gamma$ and $\gamma^{-1}$&#93;. With these
+  functions in hand, we were able to compute, for a given closed geodesic $\gamma$ and a fixed choice of pants containing $\gamma$, a table of the shears between all other pants containing $\gamma$ or $\gamma^{-1}$.</p>
+  <p>This in turn allowed us to find the inequalities needed to guarantee &#91;via <a href = "https://en.wikipedia.org/wiki/Hall%27s_marriage_theorem">Hall&#8217;s marriage theorem</a>&#93; that a matching between between pants
+    of shear in $[1-\epsilon,1+\epsilon]$ exists. Next week we'll have to actually plug all this into our linear and quadratic programs, and work on adapting our program to include a notion of shearing between pants and eyes.</p><p>
+      And because I really love pictures, I'll pause to note that this week we finally got some nicer visualizations showing shears between pairs of pants both in the Lobachevsky half plane as well as in the Poincaré disk; I've included a few nice ones below.</p>
+<p><img src="./images/pants1-1.png" alt="Pants in the Upper Half-Plane" style="width:650px;height:250px;" class="center"></p>
+<p><img src="./images/pants1-2.png" alt="Pants in the Upper Half-Plane" style="width:450px;height:400px;" class="center"></p>
+<p><img src="./images/pants2-1.png" alt="Pants in the Upper Half-Plane" style="width:650px;height:250px;" class="center"></p>
+<p><img src="./images/pants2-2.png" alt="Pants in the Upper Half-Plane" style="width:450px;height:400px;" class="center"></p>
+<p><img src="./images/pants3-1.png" alt="Pants in the Upper Half-Plane" style="width:650px;height:250px;" class="center"></p>
+<p><img src="./images/pants3-2.png" alt="Pants in the Upper Half-Plane" style="width:450px;height:400px;" class="center"></p>
+<p><img src="./images/pants4-1.png" alt="Pants in the Upper Half-Plane" style="width:650px;height:250px;" class="center"></p>
+<p><img src="./images/pants4-2.png" alt="Pants in the Upper Half-Plane" style="width:450px;height:400px;" class="center"></p>
+<p><img src="./images/pants5-1.png" alt="Pants in the Upper Half-Plane" style="width:650px;height:250px;" class="center"></p>
+<p><img src="./images/pants5-2.png" alt="Pants in the Upper Half-Plane" style="width:450px;height:400px;" class="center"></p>
+</div>
+      </p>
+  <hr>
+  <div class="post-body"> <i>Week Eight</i> </div>
+  <div class="info">At the beginning of this week, we finally plugged everything into our linear program, producing an output which was a little difficult to parse. At this point,
+  our set of eyes had no role in the inequalities, so although we're allowing them into our potential solution set via the constraint that solutions lie in the kernel of our boundary
+matrix, we were confounding the use of eyes on the "outside" &#91;i.e., corresponding to $\gamma^{-1}$ for some $\gamma$ in our chosen list of "positively oriented geodesics"&#93;
+by not allowing them to "fill in" for pants to satisfy the requirement that the "outside parts" of the inequalities be greater than their inside counterparts &#91;the constraint given by Hall&#8217;s marriage theorem&#93;. We
+were able to fix this by adding eyes into our inequalities, which only required a few straightforward modifications to our existing code. This left one problem–eyes could still be matched with eyes!
+To resolve this, we added in some more inequalities: forcing the eyes in a given "inside interval" to have weighted sum less than that of the pants in the corresponding "outside interval" &#91;that is, the interval
+shifted by +1 and extended by $\epsilon$ on both sides&#93;, and conversely, forcing the eyes in a given outside interval to have weighted sum less than that of the pants in the corresponding "inside interval" &#91;
+i.e. the interval shifted by -1 and extended by $\epsilon$ on both sides&#93;. These requirements combined allow us to match every eye to a pair of pants; combined with our earlier inequalities containing pants and eyes lumped
+together, these restrictions force the existence of the matching we desire.
+</p>
+</div>
+      </p>
+  <hr>
+  <div class="post-body"> <i>Week Nine</i> </div>
+  <div class="info">The last week of the program, I spent most of this week writing up our final paper and preparing our final presentation, which can be viewed <a href = "./documents/FinalPresentation.pdf">here</a>. I also wrote
+    a brief reflection on my experience in this summer&#8217;s program, a portion of which I've shared below.</p><p>
+    At the beginning of this summer I came into the DIMACS REU program not sure what to expect. Mathematically, in terms of the subject I’d be researching, and socially in a world that had recently shifted to exclusively virtual communications.
+    Over the next few weeks, reading papers, interacting with Colin and Saket, my coresearchers, and speaking with my mentor Alex Kontorovich; I quickly found that research can be scary–you are thrown in knowing almost nothing, and the more you learn,
+    the more you appreciate how little you know. This said, I just as quickly came to appreciate the exhilarating thrill of approaching the frontier of what one knows, and what is known collectively–just as a biologist might glimpse species new to them,
+    and occasionally, new to the world, so too as a student of mathematics, did I glimpse many objects foreign to me, only later becoming familiar with their habits, their myriad guises, their lookalikes, and their quirks. I learned that asking questions
+    is often the first sign of learning–being able to answer them is a somewhat less important validation step. What&#8217;s more, I learned that the importance of examples cannot be overstated.</p><p>That&#8217;s all I can think to write down right now, but I would
+    like to send my warmest thanks to all those who made the program so wonderful: Lazaros Gallos, Brooke Ogrodnik, Alex Kontorovich, Jeremy Kahn, and of course, my coresearchers Colin Fan and Saket Shah.
+
+</p>
 </div>
       </p>
   <hr>
