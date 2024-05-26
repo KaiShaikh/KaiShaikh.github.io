@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\(','\)']]}});
+</script>
+<script type="text/javascript"
+  src="http://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Kai Shaikh</title>
+    <link rel="stylesheet" type="text/css" href="./css/base.css" />
+    <link rel="stylesheet" type="text/css" href="./css/layout.css" />
+    <link rel="stylesheet" type="text/css" href="./css/syntax.css" />
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="icon" href="./images/icon.png">
+    <meta name="keywords" content="kai,shaikh,math,algebra,number,theory,berkeley" />
+    <!-- Schema.org markup for Google+ -->
+    <meta itemprop="name" content="Kai Shaikh">
+
+    <!-- Open Graph data -->
+
+
+ </head>
+  <body>
+    <div id="navigation">
+      <a href="./"><h1>Kai Shaikh</h1></a>
+      <a href="./">Home</a>
+      <a href="./research.html">Research</a>
+       <a href="./personal.html">Personal</a>
+
+
+    </div>
+
+    <div id="content">
+
+      <h1 id="Articles">Rutgers DIMACS REU Research Log</h1>
+
+  <div class="post-body">Project Description </div>
+  <div class="info"> In the summer of 2020, I, along with <a href = "http://reu.dimacs.rutgers.edu/~cjf151/">Colin Fan</a> and <a href = "http://reu.dimacs.rutgers.edu/~ss3664/">Saket Shah</a>
+    worked to provide evidence for a variant of the <a href = "https://en.wikipedia.org/wiki/Ehrenpreis_conjecture">Ehrenpreis Conjecture</a>
+    for cusped surfaces, via a pants decomposition using degenerate pants. We were mentored by Professor <a href = "https://sites.math.rutgers.edu/~alexk/">Alex Kontorovich</a>,
+    and also had the help of Professor <a href = "http://www.math.brown.edu/~kahn/">Jeremy Kahn</a>. Our first goal for the summer was to produce
+    &#91;using Python&#93; a pants decomposition of the standard fundamental domain for the action of $SL_2(\mathbb{Z})$ on the hyperbolic upper half-plane.</div>
+      </p>
+  <hr>
+
+  <div class="post-body"> <i>Week One</i> </div>
+  <div class="info"> Learned basics of hyperbolic geometry and the general theory behind
+    closed geodesics on the upper half plane modulo the action of $SL_2(\mathbb{Z})$.</div>
+      </p>
+  <hr>
+
+  <div class="post-body"> <i>Week Two</i> </div>
+  <div class="info">Learned more about the correspondence between equivalence classes of quadratic forms and conjugacy classes of closed geodesics.
+    We produced code that gives all closed geodesics of fixed length, using this correspodence. Still need to deal with some problems with efficiency of computation.</div>
+      </p>
+  <hr>
+
+  <div class="post-body"> <i>Week Three</i> </div>
+  <div class="info">Learned about the combinatorics of pants via "theta graphs" and the partitioning of cutting sequences. Using this reduction to a combinatorial problem,
+    we were able to write code that produces all pants with cusps with length in a given range.</div>
+      </p>
+  <hr>
+
+  <div class="post-body"> <i>Week Four</i> </div>
+  <div class="info">We produced functions that get all the geodesics used in a list of pants, and, by producing cuspidal geodesics which approximate
+  these closed ones, were able to produce a list of all eyes that can be derived from a given list of pants. We then converted our list of pants and eyes
+  into a matrix telling us which pants contain which closed geodesics, and similarly for eyes; in producing this matrix, we selected one orientation of the closed geodesic
+  to be positive (+1) and the other to be negative (-1); the semi-arbitrariness with which we chose which was positive and negative and potential issues with consistency
+  may need to be resolved next week. </p>
+<p>
+  With respect to this matrix, a valid covering of $SL_2(\mathbb{Z})$ corresponds an non-negative integer vector (non-zero) in the kernel of this matrix; furthermore, we would like a minimal such vector.
+  By the end of the week(end), we had managed to implement a linear program using PuLP, which produces a solution minimal with respect to the $L^1$ norm. In order to
+  produce a solution minimal in the $\ell^2$-norm (which is what we desire), we will have to use quadratic programming, hopefully at the beginning of next week.
+</div>
+      </p>
+  <hr>
+
+  <div class="post-body"> <i>Week Five</i> </div>
+  <div class="info">At the beginning of this week we figured out how to plug our boundary matrix into a quadratic program to get a solution minimal in the $\ell^2$-norm.
+  This way, we were able to minimize (roughly speaking) the variance in the pants&#8217; coefficients, in an attempt to produce a relatively uniform cover of $SL_2(\mathbb{Z})$.
+After this, we also had the chance to look at Professor Kahn&#8217;s code for producing quadratic forms and pants, and we ended up replacing our own functions that produce the
+representatives of the narrow class group with the functions Professor Kahn had written for this purpose.</p>
+<p>
+Professor Kahn&#8217;s functions accomplish this goal much faster than our own,
+due largely to a difference in strategy: where we computed the continued fraction corresponding to each quadratic form&#8217;s larger root and checked if we had seen one of its permutations already,
+that is, if we already had a representative of that class, Professor Kahn started by producing the matrices corresponding to each form, and the matrices&#8217; "successors" a task computationally
+roughly equivalent to computing the continued fraction of one element of the class. He then iterates over succesors until the starting matrix is returned to, and in this way produces a minimal representative
+of each class while circumventing the redundant continued fraction calculations undertaken in our own code. </p>
+<p>
+We ended up keeping the section of our code that produces pairs of pants
+from a given list of geodesics, because our methods were fairly similar to Professor Kahn&#8217;s, whence we believe that our code&#8217;s computational efficiency should be comparable as well.
+</p> <p>
+After integrating Professor Kahn&#8217;s code with our own, we were compute some more examples of covers of $SL_2(\mathbb{Z})$ minimal in the $\ell^2$-norm. The variance in coefficients, however, remains somewhat higher than desired,
+or expected, and we hope to work on understanding why this is the case and resolving this issue next week. With regards to the potential consistency issues relating to choice of orientation that I mentioned last week,
+it turns out that no such issues arise, since we only actually care about making the number of pants on each side of a given geodesic equal.
+</div>
+      </p>
+  <hr>
+
+  <div class="post-body"> <i>Week Six</i> </div>
+  <div class="info"> This week we learned about shears, which essentially measure how different two compatible &#91;in the sense that they share a cuff&#93; pants are by
+  lining up the pants in the upper half plane and constructing the semicircle orthogonal to a particular pair of geodesics within each pants. After doing this for two compatible pairs of pants, the shear between the two
+is then given by the hyperbolic distance between the semicircles orthogonal to two corresponding closed geodeics in each pair of pants.</p> <p>
+To approach this goal, we wrote a function that computes the hyperbolic distance between two semicirlces in the upper half plane, and another function that computes the semicircle orthogonal
+to two given semicircles in the upper half plane &#91;and the x-axis&#93;. To compute the former, we were able to take advantage of inversive coordinates&#8217; nice parametrization of such semicircles,
+and use the inner product with respect to the quadratic form $$Q = \begin{pmatrix} 0 & \frac{1}{2} & 0 \\\frac{1}{2} & 0 & 0\\ 0 & 0 & -1\end{pmatrix}$$
+After this we wrote a function to map pants into a standard position in the upper half plane, and then wrote a function to align two compatible pairs of pants so that $\gamma$ and $\gamma^{-1}$ coincide &#91;but with
+opposite orientation, of course&#93; in the desired positions. This function seemed to work as desired in most cases, although there still appear to be some kinks that will need to be worked out.
+</p><p>Here&#8217;s an example of the function&#8217;s output &#91;which we&#8217;ve visualized using matplotlib&#93;:</p>
+<p><img src="./images/pantsPutter.png" alt="Pants in the Upper Half-Plane" style="width:450px;height:250px;" class="center">
+</p><p>
+Here each pair of pants is represented by three semicircles, each of whose intersections with the x-axis are conjugate pairs of quadratic irrationals corresponding to
+a representative of the equivalence class of the cutting sequence of the closed geodesic under the action of $SL_2(\mathbb{Z})$.
+ In the above visualization, each pair of pants has two smaller geodesics, which $"$flow$"$ to the right, and one larger geodesic
+ which encapsulates the smaller two, and whose orientation is reversed with respect to the smaller two; that is, it flows to the left.
+ Above, the first pair of pants is comprised of the geodesics marked with the brown, purple, and red arrows, while the second pair of
+ pants corresponds to the closed geodesics marked with the orange, green, and blue arrows &#91;note: the blue arrow is behind the red arrow&#93;.
+ Here, $\gamma$ and $\gamma^{-1}$ correspond to the semicircles marked with the red and blue arrows, respectively; note that blue&#8217;s orientation
+ is opposite that of red.
+</div>
+      </p>
+  <hr>
+
+  <div class="post-body"> <i>Week Seven</i> </div>
+  <div class="info">This week we completed our computation of shears which included working out some consistency issues we had been having with the sign of the shear. We also implemented an almost
+  identical function that gives the "shear" between two pairs of pants that both contain a given closed geodesic $\gamma$ &#91;instead of containing $\gamma$ and $\gamma^{-1}$&#93;. With these
+  functions in hand, we were able to compute, for a given closed geodesic $\gamma$ and a fixed choice of pants containing $\gamma$, a table of the shears between all other pants containing $\gamma$ or $\gamma^{-1}$.</p>
+  <p>This in turn allowed us to find the inequalities needed to guarantee &#91;via <a href = "https://en.wikipedia.org/wiki/Hall%27s_marriage_theorem">Hall&#8217;s marriage theorem</a>&#93; that a matching between between pants
+    of shear in $[1-\epsilon,1+\epsilon]$ exists. Next week we'll have to actually plug all this into our linear and quadratic programs, and work on adapting our program to include a notion of shearing between pants and eyes.</p><p>
+      And because I really love pictures, I'll pause to note that this week we finally got some nicer visualizations showing shears between pairs of pants both in the Lobachevsky half plane as well as in the Poincaré disk; I've included a few nice ones below.</p>
+<p><img src="./images/pants1-1.png" alt="Pants in the Upper Half-Plane" style="width:650px;height:250px;" class="center"></p>
+<p><img src="./images/pants1-2.png" alt="Pants in the Upper Half-Plane" style="width:450px;height:400px;" class="center"></p>
+<p><img src="./images/pants2-1.png" alt="Pants in the Upper Half-Plane" style="width:650px;height:250px;" class="center"></p>
+<p><img src="./images/pants2-2.png" alt="Pants in the Upper Half-Plane" style="width:450px;height:400px;" class="center"></p>
+<p><img src="./images/pants3-1.png" alt="Pants in the Upper Half-Plane" style="width:650px;height:250px;" class="center"></p>
+<p><img src="./images/pants3-2.png" alt="Pants in the Upper Half-Plane" style="width:450px;height:400px;" class="center"></p>
+<p><img src="./images/pants4-1.png" alt="Pants in the Upper Half-Plane" style="width:650px;height:250px;" class="center"></p>
+<p><img src="./images/pants4-2.png" alt="Pants in the Upper Half-Plane" style="width:450px;height:400px;" class="center"></p>
+<p><img src="./images/pants5-1.png" alt="Pants in the Upper Half-Plane" style="width:650px;height:250px;" class="center"></p>
+<p><img src="./images/pants5-2.png" alt="Pants in the Upper Half-Plane" style="width:450px;height:400px;" class="center"></p>
+</div>
+      </p>
+  <hr>
+  <div class="post-body"> <i>Week Eight</i> </div>
+  <div class="info">At the beginning of this week, we finally plugged everything into our linear program, producing an output which was a little difficult to parse. At this point,
+  our set of eyes had no role in the inequalities, so although we're allowing them into our potential solution set via the constraint that solutions lie in the kernel of our boundary
+matrix, we were confounding the use of eyes on the "outside" &#91;i.e., corresponding to $\gamma^{-1}$ for some $\gamma$ in our chosen list of "positively oriented geodesics"&#93;
+by not allowing them to "fill in" for pants to satisfy the requirement that the "outside parts" of the inequalities be greater than their inside counterparts &#91;the constraint given by Hall&#8217;s marriage theorem&#93;. We
+were able to fix this by adding eyes into our inequalities, which only required a few straightforward modifications to our existing code. This left one problem–eyes could still be matched with eyes!
+To resolve this, we added in some more inequalities: forcing the eyes in a given "inside interval" to have weighted sum less than that of the pants in the corresponding "outside interval" &#91;that is, the interval
+shifted by +1 and extended by $\epsilon$ on both sides&#93;, and conversely, forcing the eyes in a given outside interval to have weighted sum less than that of the pants in the corresponding "inside interval" &#91;
+i.e. the interval shifted by -1 and extended by $\epsilon$ on both sides&#93;. These requirements combined allow us to match every eye to a pair of pants; combined with our earlier inequalities containing pants and eyes lumped
+together, these restrictions force the existence of the matching we desire.
+</p>
+</div>
+      </p>
+  <hr>
+  <div class="post-body"> <i>Week Nine</i> </div>
+  <div class="info">The last week of the program, I spent most of this week writing up our final paper and preparing our final presentation, which can be viewed <a href = "./documents/FinalPresentation.pdf">here</a>. I also wrote
+    a brief reflection on my experience in this summer&#8217;s program, a portion of which I've shared below.</p><p>
+    At the beginning of this summer I came into the DIMACS REU program not sure what to expect. Mathematically, in terms of the subject I’d be researching, and socially in a world that had recently shifted to exclusively virtual communications.
+    Over the next few weeks, reading papers, interacting with Colin and Saket, my coresearchers, and speaking with my mentor Alex Kontorovich; I quickly found that research can be scary–you are thrown in knowing almost nothing, and the more you learn,
+    the more you appreciate how little you know. This said, I just as quickly came to appreciate the exhilarating thrill of approaching the frontier of what one knows, and what is known collectively–just as a biologist might glimpse species new to them,
+    and occasionally, new to the world, so too as a student of mathematics, did I glimpse many objects foreign to me, only later becoming familiar with their habits, their myriad guises, their lookalikes, and their quirks. I learned that asking questions
+    is often the first sign of learning–being able to answer them is a somewhat less important validation step. What&#8217;s more, I learned that the importance of examples cannot be overstated.</p><p>That&#8217;s all I can think to write down right now, but I would
+    like to send my warmest thanks to all those who made the program so wonderful: Lazaros Gallos, Brooke Ogrodnik, Alex Kontorovich, Jeremy Kahn, and of course, my coresearchers Colin Fan and Saket Shah.
+
+</p>
+</div>
+      </p>
+  <hr>
+
+<h1 id="articles">Relevant Articles</h1>
+
+<div class="post-body"> <i>The Good Pants Homology and the Ehrenpreis Conjecture</i> <a href="https://annals.math.princeton.edu/wp-content/uploads/annals-v182-n1-p01-s.pdf">[pdf]</a> </div>
+  <div class="post-body">Jeremy Kahn and Vladimir Marković</div>
+  <div class="info"> Kahn and Marković&#8217;s proof of the original Ehrenpreis conjecture for cocompact surfaces. </div>
+      </p>
+  <hr>
+
+<div class="post-body"> <i>The Modular Surface and Continued Fractions</i> <a href="https://londmathsoc.onlinelibrary.wiley.com/doi/abs/10.1112/jlms/s2-31.1.69">[pdf]</a> </div>
+  <div class="post-body">Caroline Series</div>
+  <div class="info"> A description of the correspondence between cutting sequences and closed geodesics in the hyperbolic plane.</div>
+      </p>
+  <hr>
+
+  <div class="post-body"> <i>Letter to Bill Duke on "Inversive Coordinates"</i> <a href="https://sites.math.rutgers.edu/~alexk/files/LetterToDuke.pdf">[pdf]</a> </div>
+    <div class="post-body">Alex Kontorovich</div>
+    <div class="info"> An explanation of inversive coordinates and the correspondence between various representations of the hyperbolic plane.</div>
+        </p>
+    <hr>
+
+  <div class="post-body"> <i>Applications of Thin Orbits</i> <a href="https://arxiv.org/pdf/1606.06325.pdf">[pdf]</a> </div>
+    <div class="post-body">Alex Kontorovich</div>
+    <div class="info"> An introduction to the study of thin orbits and their various applications.</div>
+        </p>
+    <hr>
+
+  <div class="post-body"> <i>From Apollonius to Zaremba: Local-Global Phenomena in Thin Orbits</i> <a href="https://arxiv.org/pdf/1208.5460.pdf">[pdf]</a> </div>
+    <div class="post-body">Alex Kontorovich</div>
+    <div class="info"> A somewhat technical survey of recent work in demonstrating certain density versions of conjectured local-global phenomena of thin orbits, following work by Bourgain and Kontorovich.</div>
+        </p>
+    <hr>
+
+
+
+  </body>
+</html>
